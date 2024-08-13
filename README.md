@@ -24,5 +24,6 @@ Situação 3: Simulação de atendimento bancário. Além de fazer o gerenciamen
 |4|Transferência|60s
 
 No final do expediente, há um relatório que a gerência analisa sobre o atendimento, como quantidade de clientes, tempo total, tempo de cada cliente, atendimento por prioridade, etc.
+## Estruturas de Dados utlizadas
 
 ## Considerações finais
