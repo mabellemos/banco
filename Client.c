@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "client.h"
+#include "Client.h"
 
 struct Element
 {
