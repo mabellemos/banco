@@ -17,9 +17,10 @@ struct Queue
     int amount;
 };
 
+//Criar fila dinâmica de clientes
 Queue *create_queue()
 {
-    Queue *fi = (Queue*) malloc(sizeof(Queue));
+    Queue *fi = (Queue *)malloc(sizeof(Queue));
 
     if (fi != NULL)
     {
@@ -31,6 +32,7 @@ Queue *create_queue()
     return fi;
 }
 
+//Libera clientes da fila
 void release_queue(Queue *fi)
 {
     if (fi != NULL)
@@ -49,6 +51,7 @@ void release_queue(Queue *fi)
     }
 }
 
+//Consulta os clientes da fila
 int consult_queue(Queue *fi, struct Client *cl)
 {
     if (fi == NULL)
@@ -61,6 +64,28 @@ int consult_queue(Queue *fi, struct Client *cl)
     return 1;
 }
 
+//Busca binário
+//Consulta se um cliente específico está na fila
+int consult_queue_client(int *V, int N, int elem)
+{
+    int i, start = 0, quite, end = N - 1;
+
+    while (start <= end)
+    {
+        quite = (start + end) / 2;
+
+        if (elem < V[quite])
+            end = quite - 1;
+        else if (elem > V[quite])
+            start = quite + 1; 
+        else
+            return quite;
+    }
+
+    return -1;
+}
+
+//Insere novos clientes na fila
 int insert_queue(Queue *fi, struct Client *cl)
 {
     if (fi == NULL)
@@ -87,6 +112,7 @@ int insert_queue(Queue *fi, struct Client *cl)
     return 1;
 }
 
+//Remove clientes da fila
 int remove_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -108,6 +134,7 @@ int remove_queue(Queue *fi)
     return 1;
 }
 
+//Verifica o tamanho da fila de clientes
 int size_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -115,6 +142,7 @@ int size_queue(Queue *fi)
     return fi->amount;
 }
 
+//Verifica se a fila está vazia
 int null_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -125,11 +153,13 @@ int null_queue(Queue *fi)
     return 0;
 }
 
+//Verifica se a fila está cheia
 int full_queue(Queue *fi)
 {
     return 0;
 }
 
+//Imprime os clientes que estão na fila
 void display_queue(Queue *fi)
 {
     if (fi == NULL)

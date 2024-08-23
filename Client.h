@@ -10,6 +10,7 @@ typedef struct Queue Queue;
 Queue *create_queue();
 void release_queue(Queue *fi);
 int consult_queue(Queue *fi, struct Client *cl);
+int consult_queue_client();
 int insert_queue(Queue *fi, struct Client *cl);
 int remove_queue(Queue *fi);
 int size_queue(Queue *fi);

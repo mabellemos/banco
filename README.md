@@ -27,6 +27,10 @@ No final do expediente, há um relatório que a gerência analisa sobre o atendi
 ## Estruturas de Dados utilizadas
 
 ### Filas dinâmicas
+### Filas prioritárias
+### Recursividade
+### BUsca binária
+### Lista SImplesmente Encadeadas
 
 
 ## Considerações finais

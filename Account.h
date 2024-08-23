@@ -12,7 +12,7 @@ void release_list_account(List *li);
 int insert_list_end(List *li, struct Account ac);
 int insert_list_start(List *li, struct Account ac);
 int insert_list_ordered(List *li, struct Account ac);
-int remove_list(List *li, int number);
+int remove_list_number(List *li, int number);
 int remove_list_start(List *li);
 int remove_list_end(List *li);
 int size_list(List *li);

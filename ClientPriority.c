@@ -15,6 +15,7 @@ struct QueuePrio
     struct Client data[MAX];
 };
 
+//Cria uma fila prioritária para os clientes
 QueuePrio *create_queuePrio()
 {
     QueuePrio *fp;
@@ -27,12 +28,14 @@ QueuePrio *create_queuePrio()
     return fp;
 }
 
+//Libera a fila prioritária
 void release_queuePrio(QueuePrio *fp)
 {
     free(fp);
 }
 
-int consult_queuePrio(QueuePrio *fp, char *nome)
+//Consulta um cliente pelo nome dentro da fila prioritária
+int consult_queuePrio_name(QueuePrio *fp, char *nome)
 {
     if (fp == NULL || fp->amount == 0)
         return 0;
