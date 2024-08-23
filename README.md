@@ -26,4 +26,7 @@ Situação 3: Simulação de atendimento bancário. Além de fazer o gerenciamen
 No final do expediente, há um relatório que a gerência analisa sobre o atendimento, como quantidade de clientes, tempo total, tempo de cada cliente, atendimento por prioridade, etc.
 ## Estruturas de Dados utilizadas
 
+### Filas dinâmicas
+
+
 ## Considerações finais

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "Client.h"
 #include "ClientPriority.h"
+#include "User.h"
+#include "Account.h"
 
 struct ClientPrio
 {
@@ -18,7 +20,7 @@ int main()
     do
     {
         printf("\n---------ATENDIMENTO BANCÁRIO----------\n\n");
-        printf("\nQual opção deseja realizar?\n\n1 - Formar fila\n2 - Formar fila prioritária\n");
+        printf("\nQual opção deseja realizar?\n\n1 - Formar fila\n2 - Formar fila prioritária\n3 - Criar usuário\n4 - Criar COnta Bancária\n");
         scanf("%d", &opc);
 
         switch (opc)
@@ -81,7 +83,7 @@ int main()
 
             QueuePrio *fp;
             fp = create_queuePrio();
-            
+
             printf("=================================\n");
             printf("\n             Fila\n\n");
             for (int i = 0; i < 6; i++)
@@ -109,12 +111,47 @@ int main()
             release_queuePrio(fp);
 
             break;
+        case 3:
+            createUser();
+            break;
+        case 4:
+            struct Account account, ac[4] = {{1, "Maria", 1000},
+                                             {2, "Izabel", 0},
+                                             {3, "Lemos", 1200},
+                                             {4, "Silva", 45}};
+
+            List *li = create_list_account();
+
+            printf("\nTamanho da lista de contas: %d\n", size_list(li));
+
+            int i;
+            for (i = 0; i < 4; i++)
+                insert_list_ordered(li, ac[i]);
+
+            display_list(li);
+            printf("\nTamanho da lista de contas: %d\n", size_list(li));
+
+            for (i = 0; i < 4; i++)
+            {
+                remove_list_end(li);
+                display_list(li);
+                printf("\nTamanho da conta após a remoção: %d\n\n\n", size_list(li));
+            }
+
+            for (i = 0; i < 4; i++)
+                insert_list_ordered(li, ac[i]);
+
+            display_list(li);
+
+            release_list_account(li);
+
+            break;
         default:
-            printf("\nOpção inválida!");
+            printf("\nOpção inválida!\n");
             break;
         }
 
-        printf("\nDeseja realizar outra operação? (1 - Sim/2 - Não)\n");
+        printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)\n");
         scanf("%d", &resp);
     } while (resp == 1);
 
