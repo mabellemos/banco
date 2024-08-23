@@ -20,7 +20,7 @@ int main()
     do
     {
         printf("\n---------ATENDIMENTO BANCÁRIO----------\n\n");
-        printf("\nQual opção deseja realizar?\n\n1 - Formar fila\n2 - Formar fila prioritária\n3 - Criar usuário\n4 - Criar Conta Bancária\n");
+        printf("\nQual opção deseja realizar?\n\n1 - Formar fila\n2 - Formar fila prioritária\n3 - Login\n4 - Criar Conta Bancária\n");
         scanf("%d", &opc);
 
         switch (opc)
@@ -112,7 +112,7 @@ int main()
 
             break;
         case 3:
-            createUser();
+            loginUser();
             break;
         case 4:
             struct Account account, ac[4] = {{1, "Maria", 1000},

@@ -2,91 +2,34 @@
 #include <stdlib.h>
 #include <string.h>
 #include "User.h"
+#include "Account.h"
 
-/*int validUserName(char name[])
-{
-    for (int i = 0; i < MAX; i++)
-    {
-        if (strcmp(name[i], name[i]))
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-}*/
-
-/*int validPass(char pass[])
-{
-
-    if (lenght(pass) >= 8)
-    {
-        if ()
-        {
-            return 1;
-        }
-    }
-    else
-    {
-        return 0;
-    }
-}*/
-typedef struct User
-{
-    int id;
-    char name[MAX];
-    char pass[MAX];
-} User;
+FILE *file;
 
 void createUser()
 {
-    int resp, i, pass;
+    int resp, i = 0, pass;
     char name[100];
-    FILE *file;
     User user[MAX];
 
     do
     {
+        printf("\n======== Cadastro de Usuário ========\n\n");
+
+        printf("\nInforme o nome de usuário: ");
+        scanf("%s", user[i].userName);
+
+        printf("\nInforme uma senha: ");
+        scanf("%s", user[i].pass);
+
         file = fopen("users.txt", "a");
+
         if (file == NULL)
         {
             printf("\nERRO NA ABERTURA DO ARQUIVO!\n");
         }
 
-        printf("\n======== Cadastro de Usuário ========\n\n");
-        user[i].id++;
-
-        printf("\nInforme o nome de usuário: ");
-        scanf("%s", name);
-        fprintf(file, "%s,", name);
-
-        printf("\nInforme uma senha: ");
-        scanf("%d", &pass);
-        /*fflush(stdin);
-        int senha;
-
-        for (i = 0; i <= 7; i++)
-        {
-
-            scanf("%d", &pass[i]);
-
-            putchar('*');
-        }*/
-
-        fprintf(file, "%d\n", pass);
-        /*fgets(pass, 10, stdin);
-        getchar();
-        fprintf(file, "%s\n", pass);*/
-
-        /*if (validUserName == 1)
-        {
-            printf("\nSenha inválida! Informe uma nova senha");
-            scanf(" %c", &user[i].pass);
-
-            validPass(user[i].pass);
-        }*/
+        fprintf(file, "%s,%s\n", user[i].userName, user[i].pass);
 
         fclose(file);
 
@@ -99,44 +42,52 @@ void createUser()
     printf("\nUsuário salvo com sucesso!\n");
 }
 
-void login()
+int loginUser()
 {
-    // Verificar se os dados existem no arquivo
-    char userName[100];
-    int resp, opc, senha;
+
+    char userName[MAX];
+    char pass[MAX];
+    char buffer[MAX * 2];
 
     printf("\n================= BANCO ===================\n\n");
     printf("Login: ");
     scanf("%s", userName);
     printf("Senha: ");
-    scanf("%d", &senha);
+    scanf("%s", pass);
 
-    do
+    file = fopen("users.txt", "r");
+
+    if (file == NULL)
     {
-        printf("\n=========================================\n");
-        ;
-        printf("        ATENDIMENTO BANCÁRIO");
-        printf("\n=========================================\n");
+        printf("\nERRO NA ABERTURA DO ARQUIVO!\n");
+        return 0;
+    }
 
-        printf("\nEscolha uma das opções abaixo para iniciar o atendimento:\n\n1 - Saque\n2 - Depósito\n3 - Pagamento\n4 - Transferência\n5 - Sair\n");
-        scanf("%d", &opc);
+    char *stored_userName[MAX];
+    char *stored_pass[MAX];
 
-        switch (opc)
+    while (fgets(buffer, sizeof(buffer), file) != NULL)
+    {
+        buffer[strcspn(buffer, "\n")] = 0;
+
+        *stored_userName = strtok(buffer, ",");
+        *stored_pass = strtok(NULL, ",");
+
+        if (stored_userName != NULL && stored_pass != NULL)
         {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-            printf("\nOpção inválida!\n");
-            break;
-        }
+            if (strcmp(userName, *stored_userName) == 0 && strcmp(pass, *stored_pass) == 0)
+            {
+                fclose(file);
 
-        printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
-        scanf("%d", &resp);
-    } while (resp == 1);
+                printf("\nLogin realizado com sucesso!\n");
+                menu();
+                return 1;
+            }
+        }
+    }
+
+    fclose(file);
+
+    printf("\nLogin falhou! Usuário ou senha incorretos.\n");
+    return 0;
 }

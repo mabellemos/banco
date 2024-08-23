@@ -29,7 +29,8 @@ No final do expediente, há um relatório que a gerência analisa sobre o atendi
 ### Filas dinâmicas
 ### Filas prioritárias
 ### Recursividade
-### BUsca binária
+### Busca binária
+### TAD (Tipos Abstratos de Dados)
 ### Lista SImplesmente Encadeadas
 
 
