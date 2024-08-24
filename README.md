@@ -27,11 +27,141 @@ No final do expediente, há um relatório que a gerência analisa sobre o atendi
 ## Estruturas de Dados utilizadas
 
 ### Filas dinâmicas
+As filas dinâmicas tratam de formas de organização de filas em que não se tem uma determinação estáticas, elas são adaptadas de maneira mais fluida e sem, necessariamente, uma delimitação prévia. No nosso código nós utilizamos as filas dinâmicas para implementar a organização dos clientes na fila de atendimento, por exemplo:
+
+```
+Queue *create_queue()
+{
+    Queue *fi = (Queue *)malloc(sizeof(Queue));
+
+    if (fi != NULL)
+    {
+        fi->end = NULL;
+        fi->start = NULL;
+        fi->amount = 0;
+    }
+
+    return fi;
+}
+
+void release_queue(Queue *fi)
+{
+    if (fi != NULL)
+    {
+        Elem *no;
+
+        while (fi->start != NULL)
+        {
+            no = fi->start;
+            fi->start = fi->start->next;
+
+            free(no);
+        }
+
+        free(fi);
+    }
+}
+```
+
+Este é um trecho do nosso código onde utilizamos os conceitos de filas dinâmicas para criar a fila de atendimento e para fazer a liberação dela.
+
 ### Filas prioritárias
+As filas prioritárias se assemelham ao conceito de filas dinâmicas. No entanto, a diferença é a formação da segunda é direcionada a uma fator de prioridade, ou seja, o fator de momento de chegada na fila não é o principal, mas a prioridade daquele cliene ao ser inserido na fila.
+```
+QueuePrio *create_queuePrio()
+{
+    QueuePrio *fp;
+
+    fp = (QueuePrio *)malloc(sizeof(struct QueuePrio));
+
+    if (fp != NULL)
+        fp->amount = 0;
+
+    return fp;
+}
+
+void release_queuePrio(QueuePrio *fp)
+{
+    free(fp);
+}
+
+int consult_queuePrio_name(QueuePrio *fp, char *nome)
+{
+    if (fp == NULL || fp->amount == 0)
+        return 0;
+
+    strcpy(nome, fp->data[fp->amount - 1].name);
+
+    return 1;
+}
+
+```
+Nesse caso, utilizamos funcionalidades muito parecidas com o caso anterior, mas destacando a prioridade dessa vez.
+
 ### Recursividade
 ### Busca binária
 ### TAD (Tipos Abstratos de Dados)
-### Lista SImplesmente Encadeadas
+A utilização dos TAD's para obter uma interface externa foi fundamental para a organização da nossa implementação, além de tornar o entendimento mais prático. Usamos os arquivos ".h".
+```
+struct Account
+{
+    int number;
+    char name[30];
+    float balance;
+};
 
+typedef struct elem *List;
+
+List *create_list_account();
+void release_list_account(List *li);
+int insert_list_end(List *li, struct Account ac);
+int insert_list_start(List *li, struct Account ac);
+int insert_list_ordered(List *li, struct Account ac);
+int remove_list_number(List *li, int number);
+int remove_list_start(List *li);
+int remove_list_end(List *li);
+int size_list(List *li);
+int list_null(List *li);
+int list_full(List *li);
+void display_list(List *li);
+int consult_list_number(List *li, int number, struct Account *ac);
+int consult_list_pos(List *li, int pos, struct Account *ac);
+void menu();
+```
+Este é o código presente no nosso arquico Account.h, usado para a criação da interface de criação de conta.
+### Lista SImplesmente Encadeadas
+As listas simplesmente encadeadas são fundamentais para casos que não se ter uma definição prévia de itens a ser adicionados, principalmente pelo fato de não ter uma ordenação implicita de entrada e saída.
+```
+List *create_list_account()
+{
+    List *li = (List *)malloc(sizeof(List));
+
+    if (li != NULL)
+        *li = NULL;
+
+    return li;
+}
+
+// Liberar uma conta da lista
+void release_list_account(List *li)
+{
+    if (li != NULL)
+    {
+        Elem *no;
+
+        while ((*li) != NULL)
+        {
+            no = *li;
+            *li = (*li)->next;
+
+            free(no);
+        }
+
+        free(li);
+    }
+}
+```
+No código acima nós utilizamos as listas simplesmente encadeadas para fazer a criação de contas.
 
 ## Considerações finais
+Por fim, gostariamos de agrecer à nossa professora [Cledja Karina Rolim da Silva](https://buscatextual.cnpq.br/buscatextual/visualizacv.do;jsessionid=1ECD0AF3A0904BCEA98A829BAA982CE4.buscatextual_0) pela oportunidade de desenvolvermos melhor as nossas habilidades na disciplina de Estrutura de Dados.
