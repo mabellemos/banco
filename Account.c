@@ -392,7 +392,7 @@ int service()
         case 1:
             printf("\n--------- FILA ---------\n");
             Queue *fi = create_queue();
-            printf("\nTamanho da fila inicialmente: %d\n\n", size_queue(fi));
+            printf("\nTamanho da fila inicialmente: %d\n", size_queue(fi));
 
             struct Client cl, c[4] = {{"Maria", "Saque", 50},
                                       {"Ricardo", "Depósito", 70},
@@ -404,7 +404,7 @@ int service()
             printf("\nQuantos clientes entrarão na fila? (informe números inteiros)\n");
             scanf("%d", &num_clients);
 
-            FILE *file_fila = fopen("fila.txt", "w");
+            FILE *file_fila = fopen("db/fila.txt", "w");
 
             if (file_fila == NULL)
             {
@@ -427,11 +427,14 @@ int service()
 
                 consult_queue(fi, &cl);
 
-                fprintf(file_fila, "Nome: %s, Operação: %s, Valor: %d\n", cl.name, cl.operation, cl.amount);
+                fprintf(file_fila, "%s, %s, %d\n", cl.name, cl.operation, cl.waiting_time);
             }
 
             for (int i = 0; i < 4; i++)
+            {
                 insert_queue(fi, &c[i]);
+                fprintf(file_fila, "%s, %s, %d\n", c[i].name, c[i].operation, c[i].waiting_time);
+            }
 
             printf("\nTamanho da fila após inserção: %d\n\n", size_queue(fi));
             display_queue(fi);
@@ -443,7 +446,7 @@ int service()
 
         case 2:
             printf("\n------- Fila prioritária ------\n\n");
-            FILE *file_fila_prioritaria = fopen("fila_prioritaria.txt", "w");
+            FILE *file_fila_prioritaria = fopen("db/fila_prioritaria.txt", "w");
 
             if (file_fila_prioritaria == NULL)
             {
@@ -451,12 +454,12 @@ int service()
                 return 1;
             }
 
-            struct ClientPrio itens[6] = {{"Ray", 1, "Saque", 50},
-                                          {"Antoniel", 2, "Saque", 50},
-                                          {"Izabel", 5, "Depósito", 70},
-                                          {"Maria", 10, "Saque", 50},
-                                          {"Cledja", 9, "Saque", 50},
-                                          {"Juju", 2, "Saque", 50}};
+            struct ClientPrio itens[6] = {{"Ray", 1},
+                                          {"Antoniel", 2},
+                                          {"Izabel", 5},
+                                          {"Maria", 10},
+                                          {"Cledja", 9},
+                                          {"Juju", 2}};
 
             struct ClientPrio cl_prio;
             QueuePrio *fp = create_queuePrio();
@@ -481,6 +484,11 @@ int service()
                 fprintf(file_fila_prioritaria, "Nome: %s, Prioridade: %d\n", cl_prio.name, cl_prio.prio);
             }
 
+            for (int i = 0; i < 6; i++)
+            {
+                insert_queuePrio(fp, itens[i].name, itens[i].prio);
+            }
+
             display_queuePrio(fp);
 
             release_queuePrio(fp);
@@ -489,7 +497,7 @@ int service()
 
         case 3:
 
-            FILE *file_contas = fopen("contas.txt", "w");
+            FILE *file_contas = fopen("db/contas.txt", "w");
 
             if (file_contas == NULL)
             {
@@ -527,14 +535,14 @@ int service()
 
             break;
         case 4:
-        printf("\n------- Relatório final -------\n");
-        printf("\nQuantidade de clientes atendidos: %d", (size_queue(fi) + size_queuePrio(fp)));
+            printf("\n------- Relatório final -------\n");
+            printf("\nQuantidade de clientes atendidos: %d", (size_queue(fi) + size_queuePrio(fp)));
 
-        printf("\n------ Clientes e tempo gasto ------ ");
-        display_queue(fi);
+            printf("\n------ Clientes e tempo gasto ------ ");
+            display_queue(fi);
 
-        printf("\nClientes atendidos por prioridade:\n");
-          display_queuePrio(fp);
+            printf("\nClientes atendidos por prioridade:\n");
+            display_queuePrio(fp);
             break;
         default:
             printf("\nOpção inválida!\n");

@@ -5,7 +5,20 @@
 
 int main()
 {
-    loginUser();
+    int opc; 
+
+    printf("\n================= BANCO ===================\n\n");
+    printf("1 - Logar\n2 - Cadastrar\n");
+    scanf("%d", &opc);
+
+    if (opc == 1)
+    {
+        loginUser();
+    } else if (opc == 2){
+        createUser();
+    } else {
+        printf("\nOPção inválida!");
+    }
 
     system("pause");
 

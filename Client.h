@@ -2,7 +2,6 @@ struct Client
 {
     char name[100];
     char operation[100];
-    int amount;
     int waiting_time;
 };
 

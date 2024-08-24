@@ -22,7 +22,7 @@ void createUser()
         printf("\nInforme uma senha: ");
         scanf("%s", user[i].pass);
 
-        file = fopen("users.txt", "a");
+        file = fopen("db/users.txt", "a");
 
         if (file == NULL)
         {
@@ -49,13 +49,13 @@ int loginUser()
     char pass[MAX];
     char buffer[MAX * 2];
 
-    printf("\n================= BANCO ===================\n\n");
+    printf("\n================= login ===================\n\n");
     printf("Login: ");
     scanf("%s", userName);
     printf("Senha: ");
     scanf("%s", pass);
 
-    file = fopen("users.txt", "r");
+    file = fopen("db/users.txt", "r");
 
     if (file == NULL)
     {
