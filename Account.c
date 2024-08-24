@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Client.h"
 #include "ClientPriority.h"
 #include "User.h"
@@ -417,8 +418,29 @@ int service()
                 printf("\nDigite o nome do cliente %d: ", i + 1);
                 scanf("%s", cl.name);
 
-                int time, oper;
-                menu(&time, &oper);
+                int oper;
+                menu(&cl.waiting_time, &oper);
+
+                if (oper == 1)
+                {
+                    strcpy(cl.operation, "Saque");
+                }
+                else if (oper == 2)
+                {
+                    strcpy(cl.operation, "Depósito");
+                }
+                else if (oper == 3)
+                {
+                    strcpy(cl.operation, "Pagamento");
+                }
+                else if (oper == 4)
+                {
+                    strcpy(cl.operation, "Transferência");
+                }
+                else
+                {
+                    strcpy(cl.operation, "Falha!");
+                }
 
                 insert_queue(fi, &cl);
 
@@ -436,7 +458,7 @@ int service()
                 fprintf(file_fila, "%s, %s, %d\n", c[i].name, c[i].operation, c[i].waiting_time);
             }
 
-            printf("\nTamanho da fila após inserção: %d\n\n", size_queue(fi));
+            printf("\nTamanho da fila após inserção: %d\n", size_queue(fi));
             display_queue(fi);
 
             release_queue(fi);

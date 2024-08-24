@@ -210,7 +210,7 @@ void display_queue(Queue *fi)
         printf("\n----------Cliente-------------\n");
         printf("Nome: %s\n", no->data.name);
         printf("Operação realizada: %s\n", no->data.operation);
-        printf("Tempo de espera: %d\n", no->data.waiting_time);
+        printf("Tempo gasto nas operações: %d\n", no->data.waiting_time);
         printf("-------------------------------\n");
 
         no = no->next;
