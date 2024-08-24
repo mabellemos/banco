@@ -3,12 +3,13 @@ struct Client
     char name[100];
     char operation[100];
     int amount;
-    double waiting_time;
+    int waiting_time;
 };
 
 typedef struct Queue Queue;
 
 Queue *create_queue();
+void create_client();
 void release_queue(Queue *fi);
 int consult_queue(Queue *fi, struct Client *cl);
 int consult_queue_client();

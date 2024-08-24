@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Client.h"
+#include "ClientPriority.h"
+#include "User.h"
 #include "Account.h"
+
+struct ClientPrio
+{
+    char name[30];
+    int prio;
+    char operation[30];
+    int waiting_time;
+};
 
 struct elem
 {
@@ -325,29 +336,30 @@ float calculate_compound_interest(float principal, float rate, int periodos)
     return calculate_compound_interest(principal * (1 + rate), rate, periodos - 1);
 }
 
-void menu()
+void menu(int *time, int *operation)
 {
-    int opc, resp;
+    int opc, resp, total_time = 0;
 
     do
     {
-        printf("\n=========================================\n");
-        ;
-        printf("        ATENDIMENTO BANCÁRIO");
-        printf("\n=========================================\n");
-
         printf("\nEscolha uma das opções abaixo para iniciar o atendimento:\n\n1 - Saque\n2 - Depósito\n3 - Pagamento\n4 - Transferência\n5 - Sair\n");
         scanf("%d", &opc);
+
+        *operation = opc;
 
         switch (opc)
         {
         case 1:
+            total_time += 50;
             break;
         case 2:
+            total_time += 70;
             break;
         case 3:
+            total_time += 100;
             break;
         case 4:
+            total_time += 60;
             break;
         case 5:
             printf("\nTchauu!!\n");
@@ -358,6 +370,178 @@ void menu()
         }
 
         printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
+        scanf("%d", &resp);
+    } while (resp == 1);
+
+    *time = total_time;
+}
+
+int service()
+{
+    int opc;
+    int resp;
+
+    do
+    {
+        printf("\n---------ATENDIMENTO BANCÁRIO----------\n\n");
+        printf("\nQual opção deseja realizar?\n\n1 - Entrar Fila\n2 - Entrar Fila prioritária\n3 - Conta Bancária\n4 - Gerar relatórios\n\n");
+        scanf("%d", &opc);
+
+        switch (opc)
+        {
+        case 1:
+            printf("\n--------- FILA ---------\n");
+            Queue *fi = create_queue();
+            printf("\nTamanho da fila inicialmente: %d\n\n", size_queue(fi));
+
+            struct Client cl, c[4] = {{"Maria", "Saque", 50},
+                                      {"Ricardo", "Depósito", 70},
+                                      {"Bianca", "Saque", 50},
+                                      {"Ana", "Pagamento", 100}};
+
+            int num_clients;
+
+            printf("\nQuantos clientes entrarão na fila? (informe números inteiros)\n");
+            scanf("%d", &num_clients);
+
+            FILE *file_fila = fopen("fila.txt", "w");
+
+            if (file_fila == NULL)
+            {
+                printf("Erro ao abrir o arquivo!\n");
+                return 1;
+            }
+
+            for (int i = 0; i < num_clients; i++)
+            {
+                printf("\nDigite o nome do cliente %d: ", i + 1);
+                scanf("%s", cl.name);
+
+                int time, oper;
+                menu(&time, &oper);
+
+                insert_queue(fi, &cl);
+
+                if (null_queue(fi))
+                    printf("Erro!!!!!!\n");
+
+                consult_queue(fi, &cl);
+
+                fprintf(file_fila, "Nome: %s, Operação: %s, Valor: %d\n", cl.name, cl.operation, cl.amount);
+            }
+
+            for (int i = 0; i < 4; i++)
+                insert_queue(fi, &c[i]);
+
+            printf("\nTamanho da fila após inserção: %d\n\n", size_queue(fi));
+            display_queue(fi);
+
+            release_queue(fi);
+            fclose(file_fila);
+
+            break;
+
+        case 2:
+            printf("\n------- Fila prioritária ------\n\n");
+            FILE *file_fila_prioritaria = fopen("fila_prioritaria.txt", "w");
+
+            if (file_fila_prioritaria == NULL)
+            {
+                printf("Erro ao abrir o arquivo!\n");
+                return 1;
+            }
+
+            struct ClientPrio itens[6] = {{"Ray", 1, "Saque", 50},
+                                          {"Antoniel", 2, "Saque", 50},
+                                          {"Izabel", 5, "Depósito", 70},
+                                          {"Maria", 10, "Saque", 50},
+                                          {"Cledja", 9, "Saque", 50},
+                                          {"Juju", 2, "Saque", 50}};
+
+            struct ClientPrio cl_prio;
+            QueuePrio *fp = create_queuePrio();
+
+            int num_clients_prio;
+            printf("\nQuantos clientes entrarão na fila? (informe números inteiros)\n");
+            scanf("%d", &num_clients_prio);
+
+            for (int i = 0; i < num_clients_prio; i++)
+            {
+                printf("Digite o nome do cliente %d: ", i + 1);
+                scanf("%s", cl_prio.name);
+
+                printf("Digite a prioridade do cliente %d (número inteiro): ", i + 1);
+                scanf("%d", &cl_prio.prio);
+
+                int timePrio, operPrio;
+                menu(&timePrio, &operPrio);
+
+                insert_queuePrio(fp, cl_prio.name, cl_prio.prio);
+
+                fprintf(file_fila_prioritaria, "Nome: %s, Prioridade: %d\n", cl_prio.name, cl_prio.prio);
+            }
+
+            display_queuePrio(fp);
+
+            release_queuePrio(fp);
+            fclose(file_fila_prioritaria);
+            break;
+
+        case 3:
+
+            FILE *file_contas = fopen("contas.txt", "w");
+
+            if (file_contas == NULL)
+            {
+                printf("Erro ao abrir o arquivo!\n");
+                return 1;
+            }
+
+            int num_accounts;
+            printf("\nQuantas contas bancárias deseja criar?\n");
+            scanf("%d", &num_accounts);
+
+            struct Account ac;
+            List *li = create_list_account();
+
+            printf("\nTamanho da lista de contas inicialmente: %d\n", size_list(li));
+
+            for (int i = 0; i < 4; i++)
+                insert_list_ordered(li, ac);
+
+            display_list(li);
+            printf("\nTamanho da lista de contas: %d\n", size_list(li));
+
+            for (int i = 0; i < 4; i++)
+            {
+                remove_list_end(li);
+                display_list(li);
+                printf("\nTamanho da conta após a remoção: %d\n\n\n", size_list(li));
+            }
+
+            printf("\nTamanho da lista de contas após a inserção: %d\n", size_list(li));
+            display_list(li);
+
+            release_list_account(li);
+            fclose(file_contas);
+
+            break;
+        case 4:
+        printf("\n------- Relatório final -------\n");
+        printf("\nQuantidade de clientes atendidos: %d", (size_queue(fi) + size_queuePrio(fp)));
+
+        printf("\n------ Clientes e tempo gasto ------ ");
+        display_queue(fi);
+
+        printf("\nClientes atendidos por prioridade:\n");
+          display_queuePrio(fp);
+            break;
+        default:
+            printf("\nOpção inválida!\n");
+            break;
+        }
+
+        printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)\n");
         scanf("%d", &resp);
     } while (resp == 1);
 }

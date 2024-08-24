@@ -31,7 +31,7 @@ No final do expediente, há um relatório que a gerência analisa sobre o atendi
 ### Recursividade
 ### Busca binária
 ### TAD (Tipos Abstratos de Dados)
-### Lista SImplesmente Encadeadas
+### Lista Simplesmente Encadeadas
 
 
 ## Considerações finais

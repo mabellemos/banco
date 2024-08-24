@@ -80,7 +80,8 @@ int loginUser()
                 fclose(file);
 
                 printf("\nLogin realizado com sucesso!\n");
-                menu();
+
+                service();
                 return 1;
             }
         }

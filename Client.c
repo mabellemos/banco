@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Client.h"
+#include "Account.h"
+
+#define MAX 100
 
 struct Element
 {
@@ -17,7 +21,41 @@ struct Queue
     int amount;
 };
 
-//Criar fila dinâmica de clientes
+void create_client()
+{
+
+    int resp, opc, time, oper;
+    char name[MAX], operation[MAX];
+
+    printf("\n--------------- Clientes -----------------\n");
+    printf("\nInforme o nome: ");
+    scanf("%s", name);
+
+    menu(&time, &oper);
+
+    if (oper == 1)
+    {
+        strcpy(operation, "Saque");
+    }
+    else if (oper == 2)
+    {
+        strcpy(operation, "Depósito");
+    }
+    else if (oper == 3)
+    {
+        strcpy(operation, "Pagamento");
+    }
+    else if (oper == 4)
+    {
+        strcpy(operation, "Transferência");
+    }
+    else
+    {
+        strcpy(operation, "Falha!");
+    }
+}
+
+// Criar fila dinâmica de clientes
 Queue *create_queue()
 {
     Queue *fi = (Queue *)malloc(sizeof(Queue));
@@ -32,7 +70,7 @@ Queue *create_queue()
     return fi;
 }
 
-//Libera clientes da fila
+// Libera clientes da fila
 void release_queue(Queue *fi)
 {
     if (fi != NULL)
@@ -51,7 +89,7 @@ void release_queue(Queue *fi)
     }
 }
 
-//Consulta os clientes da fila
+// Consulta os clientes da fila
 int consult_queue(Queue *fi, struct Client *cl)
 {
     if (fi == NULL)
@@ -64,8 +102,8 @@ int consult_queue(Queue *fi, struct Client *cl)
     return 1;
 }
 
-//Busca binário
-//Consulta se um cliente específico está na fila
+// Busca binária
+// Consulta se um cliente específico está na fila
 int consult_queue_client(int *V, int N, int elem)
 {
     int i, start = 0, quite, end = N - 1;
@@ -77,7 +115,7 @@ int consult_queue_client(int *V, int N, int elem)
         if (elem < V[quite])
             end = quite - 1;
         else if (elem > V[quite])
-            start = quite + 1; 
+            start = quite + 1;
         else
             return quite;
     }
@@ -85,7 +123,7 @@ int consult_queue_client(int *V, int N, int elem)
     return -1;
 }
 
-//Insere novos clientes na fila
+// Insere novos clientes na fila
 int insert_queue(Queue *fi, struct Client *cl)
 {
     if (fi == NULL)
@@ -112,7 +150,7 @@ int insert_queue(Queue *fi, struct Client *cl)
     return 1;
 }
 
-//Remove clientes da fila
+// Remove clientes da fila
 int remove_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -134,7 +172,7 @@ int remove_queue(Queue *fi)
     return 1;
 }
 
-//Verifica o tamanho da fila de clientes
+// Verifica o tamanho da fila de clientes
 int size_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -142,7 +180,7 @@ int size_queue(Queue *fi)
     return fi->amount;
 }
 
-//Verifica se a fila está vazia
+// Verifica se a fila está vazia
 int null_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -153,13 +191,13 @@ int null_queue(Queue *fi)
     return 0;
 }
 
-//Verifica se a fila está cheia
+// Verifica se a fila está cheia
 int full_queue(Queue *fi)
 {
     return 0;
 }
 
-//Imprime os clientes que estão na fila
+// Imprime os clientes que estão na fila
 void display_queue(Queue *fi)
 {
     if (fi == NULL)
@@ -172,7 +210,7 @@ void display_queue(Queue *fi)
         printf("\n----------Cliente-------------\n");
         printf("Nome: %s\n", no->data.name);
         printf("Operação realizada: %s\n", no->data.operation);
-        printf("Tempo de espera: %f\n", no->data.waiting_time);
+        printf("Tempo de espera: %d\n", no->data.waiting_time);
         printf("-------------------------------\n");
 
         no = no->next;
