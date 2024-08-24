@@ -15,6 +15,7 @@ struct QueuePrio
     struct Client data[MAX];
 };
 
+//Cria uma fila prioritária para os clientes
 QueuePrio *create_queuePrio()
 {
     QueuePrio *fp;
@@ -27,12 +28,14 @@ QueuePrio *create_queuePrio()
     return fp;
 }
 
+//Libera a fila prioritária
 void release_queuePrio(QueuePrio *fp)
 {
     free(fp);
 }
 
-int consult_queuePrio(QueuePrio *fp, char *nome)
+//Consulta um cliente pelo nome dentro da fila prioritária
+int consult_queuePrio_name(QueuePrio *fp, char *nome)
 {
     if (fp == NULL || fp->amount == 0)
         return 0;
@@ -42,6 +45,7 @@ int consult_queuePrio(QueuePrio *fp, char *nome)
     return 1;
 }
 
+//Insere um novo cliente na fila prioritária
 int insert_queuePrio(QueuePrio *fp, char *name, int priority)
 {
     if (fp == NULL)
@@ -68,6 +72,7 @@ int insert_queuePrio(QueuePrio *fp, char *name, int priority)
     return 1;
 }
 
+//Remove um cliente da fila prioritária
 int remove_queuePrio(QueuePrio *fp)
 {
     if (fp == NULL)
@@ -81,6 +86,7 @@ int remove_queuePrio(QueuePrio *fp)
     return 1;
 }
 
+//Verifica o tamanho da fila prioritária
 int size_queuePrio(QueuePrio *fp)
 {
     if (fp == NULL)
@@ -89,6 +95,7 @@ int size_queuePrio(QueuePrio *fp)
         return fp->amount;
 }
 
+//Verifica se a lista está vazia
 int full_queuePrio(QueuePrio *fp)
 {
     if (fp == NULL)
@@ -97,6 +104,7 @@ int full_queuePrio(QueuePrio *fp)
     return (fp->amount == MAX);
 }
 
+//Verifica se a lista está cheia
 int null_queuePrio(QueuePrio *fp)
 {
     if (fp == NULL)
@@ -105,6 +113,7 @@ int null_queuePrio(QueuePrio *fp)
     return (fp->amount == 0);
 }
 
+//Imprime a fila prioritária de clientes
 void display_queuePrio(QueuePrio *fp)
 {
     if (fp == NULL)

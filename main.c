@@ -20,11 +20,7 @@ int main()
     do
     {
         printf("\n---------ATENDIMENTO BANCÁRIO----------\n\n");
-        printf("\nQual opção deseja realizar?\n\n");
-        printf("1 - Formar fila\n");
-        printf("2 - Formar fila prioritária\n");
-        printf("3 - Criar usuário\n");
-        printf("4 - Criar Conta Bancária\n");
+        printf("\nQual opção deseja realizar?\n\n1 - Formar fila\n2 - Formar fila prioritária\n3 - Criar usuário\n4 - Criar COnta Bancária\n");
         scanf("%d", &opc);
 
         switch (opc)
@@ -110,10 +106,8 @@ int main()
             release_queuePrio(fp);
             fclose(file);
             break;
-        }
-        case 3: 
-        {
-            createUser(); 
+        case 3:
+            createUser();
             break;
         }
         case 4:
@@ -134,18 +128,18 @@ int main()
 
             printf("\nTamanho da lista de contas inicialmente: %d\n", size_list(li));
 
-            for (int i = 0; i < num_accounts; i++)
+            int i;
+            for (i = 0; i < 4; i++)
+                insert_list_ordered(li, ac[i]);
+
+            display_list(li);
+            printf("\nTamanho da lista de contas: %d\n", size_list(li));
+
+            for (i = 0; i < 4; i++)
             {
-                printf("\nDigite o número da conta %d: ", i + 1);
-                scanf("%d", &ac.number);
-                printf("Digite o nome do titular da conta %d: ", i + 1);
-                scanf("%s", ac.name);
-                printf("Digite o saldo inicial da conta %d: ", i + 1);
-                scanf("%f", &ac.balance);
-
-                insert_list_ordered(li, ac);
-
-                fprintf(file, "Conta: %d, Titular: %s, Saldo: %.2f\n", ac.number, ac.name, ac.balance);
+                remove_list_end(li);
+                display_list(li);
+                printf("\nTamanho da conta após a remoção: %d\n\n\n", size_list(li));
             }
 
             printf("\nTamanho da lista de contas após a inserção: %d\n", size_list(li));

@@ -27,6 +27,11 @@ No final do expediente, há um relatório que a gerência analisa sobre o atendi
 ## Estruturas de Dados utilizadas
 
 ### Filas dinâmicas
+### Filas prioritárias
+### Recursividade
+### Busca binária
+### TAD (Tipos Abstratos de Dados)
+### Lista SImplesmente Encadeadas
 
 
 ## Considerações finais

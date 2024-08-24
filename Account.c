@@ -10,6 +10,7 @@ struct elem
 
 typedef struct elem Elem;
 
+// Criação de uma lista encadeada de contas
 List *create_list_account()
 {
     List *li = (List *)malloc(sizeof(List));
@@ -20,6 +21,7 @@ List *create_list_account()
     return li;
 }
 
+// Liberar uma conta da lista
 void release_list_account(List *li)
 {
     if (li != NULL)
@@ -38,6 +40,7 @@ void release_list_account(List *li)
     }
 }
 
+// Consulta a lista de contas a partir de uma posição
 int consult_list_pos(List *li, int pos, struct Account *ac)
 {
     if (li == NULL || pos <= 0)
@@ -61,6 +64,7 @@ int consult_list_pos(List *li, int pos, struct Account *ac)
     }
 }
 
+// Consultar uma conta a partir do número da conta
 int consult_list_number(List *li, int number, struct Account *ac)
 {
     if (li == NULL)
@@ -82,6 +86,7 @@ int consult_list_number(List *li, int number, struct Account *ac)
     }
 }
 
+// Inserir conta no final da lista
 int insert_list_end(List *li, struct Account ac)
 {
     if (li == NULL)
@@ -114,6 +119,7 @@ int insert_list_end(List *li, struct Account ac)
     return 1;
 }
 
+// Inserir conta no começo da lista
 int insert_list_start(List *li, struct Account ac)
 {
     if (li == NULL)
@@ -133,6 +139,7 @@ int insert_list_start(List *li, struct Account ac)
     return 1;
 }
 
+// Inserir conta de forma ordenada
 int insert_list_ordered(List *li, struct Account ac)
 {
     if (li == NULL)
@@ -176,7 +183,8 @@ int insert_list_ordered(List *li, struct Account ac)
     }
 }
 
-int remove_list(List *li, int number)
+// Remover conta da lista através do número da conta
+int remove_list_number(List *li, int number)
 {
     if (li == NULL)
         return 0;
@@ -204,6 +212,7 @@ int remove_list(List *li, int number)
     return 1;
 }
 
+// Remover conta pelo começo da lista
 int remove_list_start(List *li)
 {
     if (li == NULL)
@@ -220,6 +229,7 @@ int remove_list_start(List *li)
     return 1;
 }
 
+// Remover conta pelo final da lista
 int remove_list_end(List *li)
 {
     if (li == NULL)
@@ -246,6 +256,7 @@ int remove_list_end(List *li)
     return 1;
 }
 
+// Verificar tamanho da lista
 int size_list(List *li)
 {
     if (li == NULL)
@@ -264,11 +275,13 @@ int size_list(List *li)
     return count;
 }
 
+// Verificar se a lista está cheia
 int list_full(List *li)
 {
     return 0;
 }
 
+// Verificar se a lista está vazia
 int list_null(List *li)
 {
     if (li == NULL)
@@ -280,6 +293,7 @@ int list_null(List *li)
     return 0;
 }
 
+// Imprimir lista de contas
 void display_list(List *li)
 {
 
@@ -297,4 +311,53 @@ void display_list(List *li)
 
         no = no->next;
     }
+}
+
+// Recursividade
+// Calcular juros composto aplicadas a conta
+float calculate_compound_interest(float principal, float rate, int periodos)
+{
+    if (periodos == 0)
+    {
+        return principal;
+    }
+
+    return calculate_compound_interest(principal * (1 + rate), rate, periodos - 1);
+}
+
+void menu()
+{
+    int opc, resp;
+
+    do
+    {
+        printf("\n=========================================\n");
+        ;
+        printf("        ATENDIMENTO BANCÁRIO");
+        printf("\n=========================================\n");
+
+        printf("\nEscolha uma das opções abaixo para iniciar o atendimento:\n\n1 - Saque\n2 - Depósito\n3 - Pagamento\n4 - Transferência\n5 - Sair\n");
+        scanf("%d", &opc);
+
+        switch (opc)
+        {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            printf("\nTchauu!!\n");
+            break;
+        default:
+            printf("\nOpção inválida!\n");
+            break;
+        }
+
+        printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
+        scanf("%d", &resp);
+    } while (resp == 1);
 }
