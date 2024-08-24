@@ -99,7 +99,45 @@ int consult_queuePrio_name(QueuePrio *fp, char *nome)
 Nesse caso, utilizamos funcionalidades muito parecidas com o caso anterior, mas destacando a prioridade dessa vez.
 
 ### Recursividade
+A recursividade é um dos recursos importantes quando se trata de repetição em determinados termos. Nesse caso, utilizamos para o cálculo:
+
+```
+float calculate_compound_interest(float principal, float rate, int periodos)
+{
+    if (periodos == 0)
+    {
+        return principal;
+    }
+
+    return calculate_compound_interest(principal * (1 + rate), rate, periodos - 1);
+}
+```
+Usamos recusividade para realizar o cálculo dos juros compostos.
+
 ### Busca binária
+Em busca binária o algoritmo funciona dividindo repetidamente o intervalo de pesquisa ao meio, até localizar o elemento desejado ou determinar que ele não está presente na lista.
+```
+ int consult_queue_client(int *V, int N, int elem)
+{
+    int i, start = 0, quite, end = N - 1;
+
+    while (start <= end)
+    {
+        quite = (start + end) / 2;
+
+        if (elem < V[quite])
+            end = quite - 1;
+        else if (elem > V[quite])
+            start = quite + 1; 
+        else
+            return quite;
+    }
+
+    return -1;
+}
+```
+Nesse contexto, utilizamos busca binária para localizar se determinado cliente já está na fila.
+
 ### TAD (Tipos Abstratos de Dados)
 A utilização dos TAD's para obter uma interface externa foi fundamental para a organização da nossa implementação, além de tornar o entendimento mais prático. Usamos os arquivos ".h".
 ```
