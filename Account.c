@@ -10,8 +10,6 @@ struct ClientPrio
 {
     char name[30];
     int prio;
-    char operation[30];
-    int waiting_time;
 };
 
 struct elem
@@ -316,9 +314,10 @@ void display_list(List *li)
 
     while (no != NULL)
     {
+        printf("\n-------------------------------\n");
         printf("Número da Conta: %d\n", no->info.number);
-        printf("Nome: %s\n", no->info.name);
-        printf("Saldo: %f\n", no->info.balance);
+        printf("Tipo de conta: %s\n", no->info.type);
+        printf("Saldo: %2.f\n", no->info.balance);
         printf("-------------------------------\n");
 
         no = no->next;
@@ -385,12 +384,14 @@ int service()
     do
     {
         printf("\n---------ATENDIMENTO BANCÁRIO----------\n\n");
-        printf("\nQual opção deseja realizar?\n\n1 - Entrar Fila\n2 - Entrar Fila prioritária\n3 - Conta Bancária\n4 - Gerar relatórios\n\n");
+        printf("\nQual opção deseja realizar?\n\n1 - Entrar na Fila\n2 - Entrar na Fila prioritária\n3 - Conta Bancária\n4 - Gerar relatórios\n\n");
         scanf("%d", &opc);
 
         switch (opc)
         {
         case 1:
+            int resp1;
+
             printf("\n--------- FILA ---------\n");
             Queue *fi = create_queue();
             printf("\nTamanho da fila inicialmente: %d\n", size_queue(fi));
@@ -415,7 +416,7 @@ int service()
 
             for (int i = 0; i < num_clients; i++)
             {
-                printf("\nDigite o nome do cliente %d: ", i + 1);
+                printf("\nDigite o nome do cliente: ");
                 scanf("%s", cl.name);
 
                 int oper;
@@ -461,6 +462,55 @@ int service()
             printf("\nTamanho da fila após inserção: %d\n", size_queue(fi));
             display_queue(fi);
 
+            do
+            {
+                int opc;
+
+                printf("\n---- Fila bancária ----\n");
+                printf("\n1 - Visualizar fila\n2 - Localizar cliente na fila\n3 - Fazer fila andar\n");
+                scanf("%d", &opc);
+
+                switch (opc)
+                {
+                case 1:
+                    display_queue(fi);
+                    break;
+
+                case 2:
+
+                    char nameLoc[100];
+
+                    printf("\nInforme o nome do cliente que deseja localizar: ");
+                    scanf("%s", nameLoc);
+
+                    Eleme *el = linear_name_search(fi, nameLoc);
+
+                    if (el == NULL)
+                    {
+                        printf("\nO cliente %s não está na fila!\n", nameLoc);
+                    }
+                    else
+                    {
+                        printf("\nO cliente %s está na fila!\n", nameLoc);
+                    }
+
+                    break;
+
+                case 3:
+                    remove_queue(fi);
+                    printf("\n---- Fila após remoção ----\n");
+                    display_queue(fi);
+                    break;
+
+                default:
+                    printf("\nOpção inválida!\n");
+                    break;
+                }
+
+                printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
+                scanf("%d", &resp1);
+            } while (resp1 == 1);
+
             release_queue(fi);
             fclose(file_fila);
 
@@ -492,18 +542,15 @@ int service()
 
             for (int i = 0; i < num_clients_prio; i++)
             {
-                printf("Digite o nome do cliente %d: ", i + 1);
+                printf("\nDigite o nome do cliente: ");
                 scanf("%s", cl_prio.name);
 
-                printf("Digite a prioridade do cliente %d (número inteiro): ", i + 1);
+                printf("\nDigite a prioridade do cliente (número inteiro): ");
                 scanf("%d", &cl_prio.prio);
-
-                int timePrio, operPrio;
-                menu(&timePrio, &operPrio);
 
                 insert_queuePrio(fp, cl_prio.name, cl_prio.prio);
 
-                fprintf(file_fila_prioritaria, "Nome: %s, Prioridade: %d\n", cl_prio.name, cl_prio.prio);
+                fprintf(file_fila_prioritaria, "%s, %d\n", cl_prio.name, cl_prio.prio);
             }
 
             for (int i = 0; i < 6; i++)
@@ -513,11 +560,45 @@ int service()
 
             display_queuePrio(fp);
 
+             do
+            {
+                int opc;
+
+                printf("\n---- Fila bancária Prioritária ----\n");
+                printf("\n1 - Visualizar fila\n2 - Fazer fila andar\n");
+                scanf("%d", &opc);
+
+                switch (opc)
+                {
+                case 1:
+                    display_queuePrio(fp);
+                    break;
+
+                case 2:
+                    remove_queuePrio(fp);
+                    printf("\n---- Fila após remoção ----\n");
+                    display_queuePrio(fp);
+                    break;
+
+                default:
+                    printf("\nOpção inválida!\n");
+                    break;
+                }
+
+                printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
+                scanf("%d", &resp1);
+            } while (resp1 == 1);
+
+
             release_queuePrio(fp);
             fclose(file_fila_prioritaria);
             break;
 
         case 3:
+            struct Account ac;
+            List *li = create_list_account();
+
+            printf("\nTamanho da lista de contas inicialmente: %d\n", size_list(li));
 
             FILE *file_contas = fopen("db/contas.txt", "w");
 
@@ -531,26 +612,74 @@ int service()
             printf("\nQuantas contas bancárias deseja criar?\n");
             scanf("%d", &num_accounts);
 
-            struct Account ac;
-            List *li = create_list_account();
+            for (int i = 0; i < num_accounts; i++)
+            {
+                printf("\n-------- Criação de Conta --------\n");
 
-            printf("\nTamanho da lista de contas inicialmente: %d\n", size_list(li));
+                printf("\nInforme o número da conta: ");
+                scanf("%d", &ac.number);
 
-            for (int i = 0; i < 4; i++)
+                printf("\nInforme o tipo da conta: ");
+                scanf("%s", ac.type);
+
+                printf("\nInforme o saldo em conta: ");
+                scanf("%f", &ac.balance);
+
                 insert_list_ordered(li, ac);
+                fprintf(file_contas, "%d, %s, %2.f\n", ac.number, ac.type, ac.balance);
+            }
 
             display_list(li);
             printf("\nTamanho da lista de contas: %d\n", size_list(li));
 
-            for (int i = 0; i < 4; i++)
+            do
             {
-                remove_list_end(li);
-                display_list(li);
-                printf("\nTamanho da conta após a remoção: %d\n\n\n", size_list(li));
-            }
+                printf("\n---- Lista de Contas ----\n");
+                printf("\n1 - Inserir Conta\n2 - Remover conta\n3 - Listar Contas\n");
+                scanf("%d", &opc);
 
-            printf("\nTamanho da lista de contas após a inserção: %d\n", size_list(li));
+                switch (opc)
+                {
+                case 1:
+                    printf("\n-------- Criação de Conta --------\n");
+
+                    printf("\nInforme o número da conta: ");
+                    scanf("%d", &ac.number);
+
+                    printf("\nInforme o tipo da conta: ");
+                    scanf("%s", ac.type);
+
+                    printf("\nInforme o saldo em conta: ");
+                    scanf("%f", &ac.balance);
+
+                    insert_list_ordered(li, ac);
+                    fprintf(file_contas, "%d, %s, %2.f\n", ac.number, ac.type, ac.balance);
+                    printf("\nConta criada com sucesso!\n");
+
+                    display_list(li);
+                    break;
+                case 2:
+                    remove_list_end(li);
+
+                    printf("\nTamanho da lista após a remoção: %d\n", size_list(li));
+                    display_list(li);
+                    break;
+
+                case 3:
+                    display_list(li);
+                    break;
+
+                default:
+                    printf("\nOpção inválida!");
+                    break;
+                }
+
+                printf("\nDeseja realizar outra operação? (1 - Sim | 2 - Não)");
+                scanf("%d", &resp);
+            } while (resp == 1);
+
             display_list(li);
+            printf("\nTamanho da conta após a remoção: %d\n", size_list(li));
 
             release_list_account(li);
             fclose(file_contas);

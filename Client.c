@@ -21,9 +21,9 @@ struct Queue
     int amount;
 };
 
+// Criar cliente
 void create_client()
 {
-
     int resp, opc, time, oper;
     char name[MAX], operation[MAX];
 
@@ -70,7 +70,7 @@ Queue *create_queue()
     return fi;
 }
 
-// Libera clientes da fila
+// Libera fila
 void release_queue(Queue *fi)
 {
     if (fi != NULL)
@@ -102,28 +102,25 @@ int consult_queue(Queue *fi, struct Client *cl)
     return 1;
 }
 
-// Busca binária
-// Consulta se um cliente específico está na fila
-int consult_queue_client(int *V, int N, int elem)
+// Busca linear
+// Localizar um cliente específico na fila a partir do nome
+Elem *linear_name_search(struct Queue *q, char *name)
 {
-    int i, start = 0, quite, end = N - 1;
+    Elem *current = q->start;
 
-    while (start <= end)
+    while (current != NULL)
     {
-        quite = (start + end) / 2;
-
-        if (elem < V[quite])
-            end = quite - 1;
-        else if (elem > V[quite])
-            start = quite + 1;
-        else
-            return quite;
+        if (strcmp(current->data.name, name) == 0)
+        {
+            return current; // Cliente encontrado
+        }
+        current = current->next;
     }
 
-    return -1;
+    return NULL; // Cliente não encontrado
 }
 
-// Insere novos clientes na fila
+// Insere clientes na fila
 int insert_queue(Queue *fi, struct Client *cl)
 {
     if (fi == NULL)
@@ -216,3 +213,25 @@ void display_queue(Queue *fi)
         no = no->next;
     }
 }
+
+/*void bank_withdrawal(float value)
+{
+    Account *ac;
+
+    if (value <= 0)
+    {
+        printf("\nValor de saque inválido.\n");
+    }
+    else if (ac->balance < value)
+    {
+        printf("\nSaldo insuficiente.\n");
+    }
+    else
+    {
+        ac->balance -= value;
+
+        printf("\nSaque realizado com sucesso.\nNovo saldo: %.2f\n", ac->balance);
+    }
+
+    free(ac);
+}*/

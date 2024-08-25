@@ -1,7 +1,7 @@
 struct Account
 {
     int number;
-    char name[30];
+    char type[30];
     float balance;
 };
 

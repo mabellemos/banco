@@ -34,7 +34,7 @@ void release_queuePrio(QueuePrio *fp)
     free(fp);
 }
 
-// Consulta um cliente pelo nome dentro da fila prioritária
+// Consulta nome da cliente na fila
 int consult_queuePrio_name(QueuePrio *fp, char *nome)
 {
     if (fp == NULL || fp->amount == 0)
