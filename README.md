@@ -166,7 +166,7 @@ void release_list_account(List *li)
 Utilizamos a prática de listas simplesmente encadeadas para a lista de criação de contas
 
 ## Mini tutorial
-Bastas [clicar aqui](https://drive.google.com/file/d/1oZharloQGGI_K-7f6nZA2D6hJtHXNOQG/view?usp=sharing) para ter acesso ao vídeo do nosso mini tutorial do projeto. Lembrando que o acesso é restrito para o email institucional do IFAL.
+Bastas [clicar aqui](https://drive.google.com/file/d/17FViZOIdaw2xhL9hlPzgkPMB8t4Ubt_W/view?usp=sharing) para ter acesso ao vídeo do nosso mini tutorial do projeto. Lembrando que o acesso é restrito para o email institucional do IFAL.
 
 ## Considerações finais
 Por fim, gostaríamos de agrecer à professora [Cledja Karina Rolim da Silva](https://buscatextual.cnpq.br/buscatextual/visualizacv.do;jsessionid=1ECD0AF3A0904BCEA98A829BAA982CE4.buscatextual_0) pela opotunidade de desenvolvimento de habilidades práticas na disciplina de Estrutura de Dados.
